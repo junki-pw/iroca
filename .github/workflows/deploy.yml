@@ -24,3 +24,19 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+
+      - name: Verify live site
+        run: |
+          sleep 8
+          check() {
+            local url="$1"
+            local code
+            code=$(curl -sL -o /tmp/page.html -w "%{http_code}" "$url")
+            echo "$url => HTTP $code"
+            test "$code" = "200"
+          }
+          check "https://kyon-sen.com/linktree"
+          check "https://kyon-sen.com/linktree/"
+          grep -q "iroca" /tmp/page.html
+          curl -sL "https://kyon-sen.com/linktree/style.css" | grep -q "iroca"
+          echo "Live verification passed"

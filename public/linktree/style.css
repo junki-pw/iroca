@@ -360,8 +360,7 @@ button.link {
   .hero__title,
   .badges,
   .links__list > li {
-    opacity: 0;
-    animation: rise 0.7s var(--ease) forwards;
+    animation: rise 0.7s var(--ease) both;
   }
   .hero__title          { animation-delay: 0.05s; }
   .badges               { animation-delay: 0.18s; }
