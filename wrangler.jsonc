@@ -1,0 +1,16 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "iroca-linktree",
+  "compatibility_date": "2026-06-19",
+  "workers_dev": false,
+  "assets": {
+    "directory": "./public",
+    "html_handling": "auto-trailing-slash"
+  },
+  "routes": [
+    {
+      "pattern": "kyon-sen.com/linktree*",
+      "zone_name": "kyon-sen.com"
+    }
+  ]
+}
