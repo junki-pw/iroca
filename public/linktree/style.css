@@ -41,7 +41,8 @@ body {
   background-image:
     radial-gradient(120% 80% at 50% -10%, #fffaf1 0%, rgba(255, 250, 241, 0) 55%),
     radial-gradient(90% 60% at 50% 120%, var(--bg-deep) 0%, rgba(247, 238, 221, 0) 60%);
-  background-attachment: fixed;
+  /* fixed は iOS Safari で描画が真っ白になることがある */
+  background-attachment: scroll;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
@@ -354,7 +355,7 @@ button.link {
 }
 
 /* =========================================================
-   登場アニメーション（動きを抑える設定では無効化）
+   登場アニメーション（モバイル WebView 互換のため opacity は使わない）
    ========================================================= */
 @media (prefers-reduced-motion: no-preference) {
   .hero__title,
@@ -371,6 +372,6 @@ button.link {
 }
 
 @keyframes rise {
-  from { opacity: 0; transform: translateY(12px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from { transform: translateY(12px); }
+  to   { transform: translateY(0); }
 }

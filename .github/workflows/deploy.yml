@@ -39,4 +39,9 @@ jobs:
           check "https://kyon-sen.com/linktree/"
           grep -q "iroca" /tmp/page.html
           curl -sL "https://kyon-sen.com/linktree/style.css" | grep -q "iroca"
+          MOBILE_UA="Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1"
+          code=$(curl -sL -A "$MOBILE_UA" -o /tmp/mobile.html -w "%{http_code}" "https://kyon-sen.com/linktree/")
+          echo "mobile UA https://kyon-sen.com/linktree/ => HTTP $code"
+          test "$code" = "200"
+          grep -q "iroca" /tmp/mobile.html
           echo "Live verification passed"
