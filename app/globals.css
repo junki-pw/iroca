@@ -1,6 +1,9 @@
 /* =========================================================
    iroca ｜ eyelash salon — link page
    Figma: iroca / Frame 26 をベースに HTML+CSS で実装
+   フォントは next/font で読み込み、CSS 変数で参照:
+     --font-noto-serif : "Noto Serif JP"
+     --font-cormorant  : "Cormorant Garamond"
    ========================================================= */
 
 /* ---------- デザイントークン ---------- */
@@ -17,6 +20,10 @@
   --maxw: 384px;          /* コンテンツ最大幅（Figmaの中央カラム相当） */
   --radius-pill: 999px;
   --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+
+  /* next/font が未読み込みでも崩れないようフォールバックを内包 */
+  --serif-jp: var(--font-noto-serif), "Hiragino Mincho ProN", "Yu Mincho", serif;
+  --serif-en: var(--font-cormorant), serif;
 }
 
 /* ---------- リセット ---------- */
@@ -34,7 +41,7 @@ body {
   flex-direction: column;
   align-items: center;
   padding: 32px 20px;
-  font-family: "Noto Serif JP", "Hiragino Mincho ProN", "Yu Mincho", serif;
+  font-family: var(--serif-jp);
   color: var(--brand);
   background-color: var(--bg);
   /* 大画面でも単調にならないよう、ごく淡い光を中央上に */
@@ -90,7 +97,7 @@ img, svg { display: block; }
   gap: 9px;
 }
 .eyebrow__text {
-  font-family: "Cormorant Garamond", serif;
+  font-family: var(--serif-en);
   font-weight: 500;
   font-size: 16px;
   letter-spacing: 0.14em;
@@ -114,7 +121,7 @@ img, svg { display: block; }
 /* ロゴ */
 .logo {
   margin: 0;
-  font-family: "Cormorant Garamond", serif;
+  font-family: var(--serif-en);
   font-weight: 700;
   font-size: clamp(44px, 13vw, 52px);
   line-height: 1;
@@ -219,7 +226,7 @@ img, svg { display: block; }
   line-height: 1.45;
 }
 .link__sub {
-  font-family: "Cormorant Garamond", serif;
+  font-family: var(--serif-en);
   font-size: 12px;
   font-weight: 500;
   letter-spacing: 0.08em;
