@@ -56,8 +56,8 @@ export const links: LinkEntry[] = [
   },
   {
     kind: "link",
-    // Googleマップ：埼玉県加須市三保1-32-3
-    href: "https://www.google.com/maps/search/?api=1&query=%E5%9F%BC%E7%8E%89%E7%9C%8C%E5%8A%A0%E9%A0%88%E5%B8%82%E4%B8%89%E4%BF%9D1-32-3",
+    // Googleマップ：埼玉県加須市三保1-32-3（店舗共有リンク）
+    href: "https://maps.app.goo.gl/Czvz7AR7d1bScFNg6?g_st=ic",
     title: "アクセス・地図",
     sub: "ACCESS・MAP",
     icon: { type: "pin" },
