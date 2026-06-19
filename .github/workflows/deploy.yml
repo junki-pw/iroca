@@ -8,7 +8,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
 
@@ -19,11 +19,16 @@ jobs:
 
       - run: npm ci
 
+      # Next.js をビルドし OpenNext で Cloudflare Workers 用に変換（.open-next/ を生成）
+      - name: Build (OpenNext)
+        run: npx opennextjs-cloudflare build
+
       - name: Deploy Worker
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: deploy
 
       - name: Verify live site
         run: |
@@ -35,10 +40,21 @@ jobs:
             echo "$url => HTTP $code"
             test "$code" = "200"
           }
+          # ページが 200 で配信され、本文に iroca が含まれること
           check "https://kyon-sen.com/linktree"
           check "https://kyon-sen.com/linktree/"
           grep -q "iroca" /tmp/page.html
-          curl -sL "https://kyon-sen.com/linktree/style.css" | grep -q "iroca"
+
+          # basePath 配下の _next 静的アセット（CSS/JS）が 200 で取得できること
+          # （OpenNext × basePath のアセット 404 回帰を防ぐ）
+          asset=$(grep -oE '/linktree/_next/[^"]+' /tmp/page.html | head -1)
+          echo "first _next asset => $asset"
+          test -n "$asset"
+          acode=$(curl -sL -o /dev/null -w "%{http_code}" "https://kyon-sen.com${asset}")
+          echo "asset https://kyon-sen.com${asset} => HTTP $acode"
+          test "$acode" = "200"
+
+          # モバイル（iOS Safari）UA でも 200 + iroca
           MOBILE_UA="Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1"
           code=$(curl -sL -A "$MOBILE_UA" -o /tmp/mobile.html -w "%{http_code}" "https://kyon-sen.com/linktree/")
           echo "mobile UA https://kyon-sen.com/linktree/ => HTTP $code"

@@ -1,5 +1,0 @@
-/linktree/*
-  Cache-Control: public, max-age=0, must-revalidate
-
-/linktree/style.css
-  Cache-Control: public, max-age=3600

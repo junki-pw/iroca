@@ -1,5 +1,16 @@
 node_modules/
+
+# Next.js
+/.next/
+/out/
+next-env.d.ts
+
+# OpenNext / Cloudflare
+/.open-next/
+.wrangler/
+cloudflare-env.d.ts
+
+# 環境変数・OS
 .dev.vars*
 .env*
 .DS_Store
-.wrangler/

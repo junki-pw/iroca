@@ -1,12 +1,25 @@
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "iroca-linktree",
+  // OpenNext が生成する Worker エントリ
+  "main": ".open-next/worker.js",
   "compatibility_date": "2026-06-19",
+  // OpenNext 必須: Node 互換 + fetch を public 扱いにするフラグ
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
   "workers_dev": false,
   "assets": {
-    "directory": "./public",
-    "html_handling": "auto-trailing-slash"
+    // OpenNext のビルド成果物（_next 等の静的アセット）
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
   },
+  "services": [
+    {
+      // ISR/再検証などで Worker が自分自身を呼べるようにする OpenNext 標準設定
+      "binding": "WORKER_SELF_REFERENCE",
+      "service": "iroca-linktree"
+    }
+  ],
+  // kyon-sen.com/linktree（+ www）のサブパスに Worker をバインド
   "routes": [
     {
       "pattern": "kyon-sen.com/linktree*",
