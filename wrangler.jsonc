@@ -11,6 +11,10 @@
     {
       "pattern": "kyon-sen.com/linktree*",
       "zone_name": "kyon-sen.com"
+    },
+    {
+      "pattern": "www.kyon-sen.com/linktree*",
+      "zone_name": "kyon-sen.com"
     }
   ]
 }
