@@ -1,0 +1,377 @@
+/* =========================================================
+   iroca ｜ eyelash salon — link page
+   Figma: iroca / Frame 26 をベースに HTML+CSS で実装
+   ========================================================= */
+
+/* ---------- デザイントークン ---------- */
+:root {
+  --bg:        #fdf7ed;   /* 背景：温かいクリーム */
+  --bg-deep:   #f7eedd;   /* 背景の陰影用 */
+  --brand:     #735433;   /* メインのブラウン（見出し・本文） */
+  --gold:      #a27940;   /* ダイヤモンド等のアクセント */
+  --gold-soft: #c9a063;   /* アイコン（地図ピン）の金 */
+  --beige:     #e8c39a;   /* サブテキスト・区切り線 */
+  --beige-line:#ecd6b6;   /* 区切り線（やや淡く） */
+  --white:     #ffffff;
+
+  --maxw: 384px;          /* コンテンツ最大幅（Figmaの中央カラム相当） */
+  --radius-pill: 999px;
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+/* ---------- リセット ---------- */
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 32px 20px;
+  font-family: "Noto Serif JP", "Hiragino Mincho ProN", "Yu Mincho", serif;
+  color: var(--brand);
+  background-color: var(--bg);
+  /* 大画面でも単調にならないよう、ごく淡い光を中央上に */
+  background-image:
+    radial-gradient(120% 80% at 50% -10%, #fffaf1 0%, rgba(255, 250, 241, 0) 55%),
+    radial-gradient(90% 60% at 50% 120%, var(--bg-deep) 0%, rgba(247, 238, 221, 0) 60%);
+  background-attachment: fixed;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+ul { list-style: none; margin: 0; padding: 0; }
+img, svg { display: block; }
+
+/* ---------- カード（中央カラム） ---------- */
+.card {
+  width: 100%;
+  max-width: var(--maxw);
+  margin-block: auto;            /* 縦中央寄せ（短い内容でも見切れない） */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(32px, 6vw, 44px);
+}
+
+/* =========================================================
+   ヒーロー
+   ========================================================= */
+.hero {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.hero__title {
+  width: 100%;
+  max-width: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+/* EYELASH SALON（罫線＋ダイヤ＋テキスト） */
+.eyebrow {
+  width: 100%;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+.eyebrow__text {
+  font-family: "Cormorant Garamond", serif;
+  font-weight: 500;
+  font-size: 16px;
+  letter-spacing: 0.14em;
+  color: var(--brand);
+  white-space: nowrap;
+}
+.eyebrow__rule {
+  flex: 1 1 0;
+  height: 1px;
+}
+.eyebrow__rule--left  { background: linear-gradient(to right, rgba(162,121,64,0), var(--gold)); }
+.eyebrow__rule--right { background: linear-gradient(to left,  rgba(162,121,64,0), var(--gold)); }
+.eyebrow__diamond {
+  flex: none;
+  width: 6px;
+  height: 6px;
+  background: var(--gold);
+  transform: rotate(45deg);
+}
+
+/* ロゴ */
+.logo {
+  margin: 0;
+  font-family: "Cormorant Garamond", serif;
+  font-weight: 700;
+  font-size: clamp(44px, 13vw, 52px);
+  line-height: 1;
+  letter-spacing: 0.01em;
+  color: var(--brand);
+}
+
+/* キャッチコピー */
+.tagline {
+  margin: 0;
+  font-size: clamp(13.5px, 3.8vw, 16px);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  text-align: center;
+  color: var(--brand);
+}
+
+/* バッジ */
+.badges {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+}
+.badge {
+  padding: 6px 13px 7px;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: var(--brand);
+  background: var(--white);
+  border: 1px solid rgba(115, 84, 51, 0.5);
+  border-radius: var(--radius-pill);
+  white-space: nowrap;
+}
+
+/* =========================================================
+   リンク一覧
+   ========================================================= */
+.links {
+  width: 100%;
+  max-width: 364px;
+}
+.links__list {
+  border-top: 1px dotted var(--beige);
+}
+.links__list > li {
+  border-bottom: 1px dotted var(--beige);
+}
+
+/* 1行 */
+.link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 8px 16px 36px;   /* 左インデントは Figma 準拠（モバイルで縮小） */
+  text-decoration: none;
+  color: inherit;
+  border-radius: 14px;
+  transition: background-color 0.25s var(--ease), transform 0.25s var(--ease);
+}
+
+/* アイコンの円 */
+.link__icon {
+  flex: none;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--white);
+  border: 1px solid rgba(232, 195, 154, 0.7);
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(115, 84, 51, 0.06);
+  transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease);
+  overflow: hidden;
+}
+.link__icon img {
+  width: 26px;
+  height: 26px;
+  object-fit: contain;
+}
+.link__pin {
+  width: 22px;
+  height: 22px;
+  color: var(--gold-soft);
+}
+
+/* テキスト */
+.link__body {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.link__title {
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: var(--brand);
+  line-height: 1.45;
+}
+.link__sub {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: var(--beige);
+  line-height: 1.2;
+}
+
+/* ホバー時に現れるシェブロン（>） */
+.link__chevron {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  margin-right: 4px;
+  border-top: 1.5px solid var(--beige);
+  border-right: 1.5px solid var(--beige);
+  transform: rotate(45deg);
+  opacity: 0;
+  transition: opacity 0.25s var(--ease), transform 0.25s var(--ease);
+}
+
+/* ---- インタラクション ---- */
+@media (hover: hover) {
+  .link:hover {
+    background: rgba(255, 255, 255, 0.65);
+  }
+  .link:hover .link__icon {
+    transform: scale(1.06);
+    box-shadow: 0 6px 16px rgba(115, 84, 51, 0.12);
+  }
+  .link:hover .link__chevron {
+    opacity: 1;
+    transform: rotate(45deg) translate(2px, -2px);
+  }
+}
+.link:active { transform: scale(0.99); }
+
+/* キーボードフォーカス（アクセシビリティ） */
+.link:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+  background: rgba(255, 255, 255, 0.65);
+}
+.link:focus-visible .link__chevron { opacity: 1; }
+
+/* =========================================================
+   準備中（Hot Pepper Beauty：リンク未公開）
+   ========================================================= */
+/* <button> を .link と同じ見た目で使うためのリセット */
+button.link {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 100%;
+  font: inherit;
+  text-align: left;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+}
+/* 少し淡くして「まだ動いていない」ことを押す前から伝える */
+.link--soon .link__icon  { opacity: 0.55; }
+.link--soon .link__title { color: rgba(115, 84, 51, 0.60); }
+.link--soon .link__sub   { color: rgba(193, 154, 107, 0.85); }
+
+/* 「準備中」バッジ（シェブロンの代わりに常時表示） */
+.link__badge {
+  flex: none;
+  align-self: center;
+  padding: 3px 10px 4px;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--gold);
+  background: rgba(162, 121, 64, 0.10);
+  border: 1px solid rgba(162, 121, 64, 0.30);
+  border-radius: var(--radius-pill);
+  white-space: nowrap;
+}
+
+/* タップで開く案内文（LINE 予約へ誘導） */
+.link__note {
+  margin: 2px 8px 14px 36px;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--brand);
+  animation: noteIn 0.3s var(--ease);
+}
+.link__note[hidden] { display: none; }
+.link__note a {
+  color: var(--gold);
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  text-decoration-thickness: 1px;
+}
+@keyframes noteIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .link__note { animation: none; }
+}
+
+/* =========================================================
+   レスポンシブ
+   ========================================================= */
+
+/* スマホ（狭幅）：左インデントと余白を詰める */
+@media (max-width: 420px) {
+  body { padding: 24px 16px; }
+  .link {
+    gap: 13px;
+    padding: 14px 4px 14px 8px;
+  }
+  .link__icon { width: 44px; height: 44px; }
+  .link__icon img { width: 24px; height: 24px; }
+  .link__title { font-size: 15px; }
+  .link__note { margin-left: 8px; }
+}
+
+/* タブレット以上：少しゆとりを持たせる */
+@media (min-width: 768px) {
+  :root { --maxw: 400px; }
+  .card { gap: 48px; }
+}
+
+/* 大画面：縦位置を中央へ寄せて余白を上品に */
+@media (min-width: 1024px) {
+  body { padding: 48px 20px; }
+}
+
+/* 端末の向きが横で背が低い場合は上寄せ */
+@media (max-height: 560px) {
+  .card { margin-block: 0; }
+}
+
+/* =========================================================
+   登場アニメーション（動きを抑える設定では無効化）
+   ========================================================= */
+@media (prefers-reduced-motion: no-preference) {
+  .hero__title,
+  .badges,
+  .links__list > li {
+    opacity: 0;
+    animation: rise 0.7s var(--ease) forwards;
+  }
+  .hero__title          { animation-delay: 0.05s; }
+  .badges               { animation-delay: 0.18s; }
+  .links__list > li:nth-child(1) { animation-delay: 0.30s; }
+  .links__list > li:nth-child(2) { animation-delay: 0.40s; }
+  .links__list > li:nth-child(3) { animation-delay: 0.50s; }
+  .links__list > li:nth-child(4) { animation-delay: 0.60s; }
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
