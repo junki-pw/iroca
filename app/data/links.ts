@@ -47,9 +47,8 @@ export const links: LinkEntry[] = [
     icon: { type: "image", src: instagramIcon },
   },
   {
-    // Hot Pepper Beauty：リンク先未公開のため「準備中」。
-    // URL が決まったら kind: "link" + href に差し替える。
-    kind: "soon",
+    kind: "link",
+    href: "https://beauty.hotpepper.jp/kr/slnH000815000/?vos=cpahpbprosmaf131118003",
     title: "Hot Pepper Beauty で予約",
     sub: "Hot Pepper Beauty",
     icon: { type: "image", src: hotpepperIcon },
